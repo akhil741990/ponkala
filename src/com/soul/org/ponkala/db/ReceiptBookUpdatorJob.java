@@ -3,10 +3,10 @@ package com.soul.org.ponkala.db;
 import java.sql.PreparedStatement;
 import java.util.concurrent.Callable;
 
-public class LocationUpdatorJob implements Callable<Integer>{
+public class ReceiptBookUpdatorJob implements Callable<Integer>{
 
 	private PreparedStatement ps;
-	LocationUpdatorJob(PreparedStatement ps){
+	ReceiptBookUpdatorJob(PreparedStatement ps){
 		this.ps = ps;
 	}
 	@Override

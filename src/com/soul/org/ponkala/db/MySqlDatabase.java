@@ -7,6 +7,8 @@ import java.util.concurrent.Future;
 
 import org.apache.commons.dbcp.BasicDataSource;
 
+import com.soul.org.ponkala.entity.ReceiptBook;
+
 public class MySqlDatabase implements Database{
 	
 	
@@ -43,13 +45,16 @@ public class MySqlDatabase implements Database{
 		
 	}
 
-	public int insertorUpdateVehicleLocation(int vehicleId, float lattitude, float longitude) {
+	
+	public int insertIntoReceiptBook(ReceiptBook receiptBook){
 		Connection con = null;
 		PreparedStatement ps = null;
 		try {
 			con = getConnection();
-			ps = DatabaseOps.createPreparedStatement(con,DatabaseQuery.INSERT_OR_UPDATE_VEHICLE_LOCATION, new Object[]{vehicleId,lattitude,longitude,lattitude,longitude});
-			LocationUpdatorJob dbJob = new LocationUpdatorJob(ps);
+			ps = DatabaseOps.createPreparedStatement(con,DatabaseQuery.INSERT_INTO_RECEIPT_BOOK, 
+					new Object[]{receiptBook.getPoojaType(),receiptBook.getAmmount(),receiptBook.getName(), 
+							receiptBook.getAddress()});
+			ReceiptBookUpdatorJob dbJob = new ReceiptBookUpdatorJob(ps);
 			Future<Integer> rowsAffected = this.dbJobExecutor.submit(dbJob);
 			return rowsAffected.get();
 		} catch (Exception e) {
@@ -60,6 +65,8 @@ public class MySqlDatabase implements Database{
 			DatabaseOps.closeConnection(con, ps);
 		}
 	}
+	
+	
 	public void getVehicleLocation(int vehicleId) {
 		Connection con = null;
 		PreparedStatement ps = null;
