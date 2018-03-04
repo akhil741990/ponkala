@@ -1,8 +1,19 @@
 package com.soul.org.ponkala.ui;
 
-import javax.swing.*;  
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import com.soul.org.ponkala.db.MySqlDatabase;
+import com.soul.org.ponkala.entity.PoojaType;
+import com.soul.org.ponkala.entity.ReceiptBook;  
 public class AddReceiptEntry {
 	public static void main(String args[]){
+		
+		
+		MySqlDatabase db = MySqlDatabase.getInstance();
+		db.init();
 		
 		JFrame f=new JFrame();//creating instance of JFrame  
 		
@@ -32,6 +43,23 @@ public class AddReceiptEntry {
 		JButton b=new JButton("Submit Receipt");//creating instance of JButton  
 		b.setBounds(130,500,200, 40);//x axis, y axis, width, height  
 		
+		
+		b.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				ReceiptBook entry = new ReceiptBook();
+				entry.setPoojaType(PoojaType.ANNADANAM);
+				entry.setAmmount(Integer.parseInt(tPoojaPrce.getText()));
+				entry.setName(tName.getText());
+				entry.setAddress(tAddress.getText());
+			
+				db.insertIntoReceiptBook(entry);
+			}
+		});
+		
+		
 		f.add(lPoojaName);
 		f.add(lPoojaPrice);
 		f.add(lName);
@@ -44,5 +72,7 @@ public class AddReceiptEntry {
 		f.setSize(600,800);//400 width and 500 height  
 		f.setLayout(null);//using no layout managers  
 		f.setVisible(true);//making the frame visible  
+	
+		
 	}
 }

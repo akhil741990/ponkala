@@ -29,7 +29,7 @@ public class MySqlDatabase implements Database{
 		this.dataSource = new BasicDataSource();
 		
 		//TODO :  makes these values configurable via INI/ Properties file
-		this.dataSource.setUrl("jdbc:mysql://localhost:3306/turvo");
+		this.dataSource.setUrl("jdbc:mysql://localhost:3306/ponkala");
 		this.dataSource.setUsername("root");
 		this.dataSource.setPassword("password");
 		this.dataSource.setDriverClassName("com.mysql.jdbc.Driver");
@@ -52,7 +52,7 @@ public class MySqlDatabase implements Database{
 		try {
 			con = getConnection();
 			ps = DatabaseOps.createPreparedStatement(con,DatabaseQuery.INSERT_INTO_RECEIPT_BOOK, 
-					new Object[]{receiptBook.getPoojaType(),receiptBook.getAmmount(),receiptBook.getName(), 
+					new Object[]{receiptBook.getPoojaType().toString(),receiptBook.getAmmount(),receiptBook.getName(), 
 							receiptBook.getAddress()});
 			ReceiptBookUpdatorJob dbJob = new ReceiptBookUpdatorJob(ps);
 			Future<Integer> rowsAffected = this.dbJobExecutor.submit(dbJob);
