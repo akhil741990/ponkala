@@ -9,19 +9,23 @@ import com.soul.org.ponkala.db.MySqlDatabase;
 import com.soul.org.ponkala.entity.PoojaType;
 import com.soul.org.ponkala.entity.ReceiptBook;  
 public class AddReceiptEntry {
+	
 	public static void main(String args[]){
-		
-		
+			
 		MySqlDatabase db = MySqlDatabase.getInstance();
 		db.init();
 		
 		JFrame f=new JFrame();//creating instance of JFrame  
 		
+		
+		String poojaType[]={"Annadanam", "Ponkala", "GanapathiHomam", "Nirapara", "Kalasham", "Archana", "DurgaPooja"};        
+	    
+		
+		
 		JLabel lPoojaName = new JLabel("Pooja Name");
 		lPoojaName.setBounds(30, 100, 100, 40);
-		JTextArea tPoojaName = new JTextArea();
-		tPoojaName.setBounds(130, 100, 100, 40);
-
+		JComboBox cbPoojaName=new JComboBox(poojaType);   
+	    cbPoojaName.setBounds(130, 100, 100, 40);
 		
 		JLabel lPoojaPrice = new JLabel("Pooja Amount");
 		lPoojaPrice.setBounds(30, 200, 100, 40);
@@ -50,12 +54,20 @@ public class AddReceiptEntry {
 			public void actionPerformed(ActionEvent e) {
 				
 				ReceiptBook entry = new ReceiptBook();
-				entry.setPoojaType(PoojaType.ANNADANAM);
+				cbPoojaName.getSelectedItem().toString();
+				entry.setPoojaType(PoojaType.getPoojaType(cbPoojaName.getSelectedItem().toString()));
 				entry.setAmmount(Integer.parseInt(tPoojaPrce.getText()));
 				entry.setName(tName.getText());
 				entry.setAddress(tAddress.getText());
-			
 				db.insertIntoReceiptBook(entry);
+				JOptionPane.showMessageDialog(null, "Receipt Saved Successfully");
+				clearAllFields();
+			}
+			
+			private void clearAllFields(){
+				tPoojaPrce.setText("");
+				tName.setText("");
+				tAddress.setText("");
 			}
 		});
 		
@@ -64,7 +76,7 @@ public class AddReceiptEntry {
 		f.add(lPoojaPrice);
 		f.add(lName);
 		f.add(lAddress);
-		f.add(tPoojaName);
+		f.add(cbPoojaName);
 		f.add(tPoojaPrce);
 		f.add(tName);
 		f.add(tAddress);
@@ -75,4 +87,5 @@ public class AddReceiptEntry {
 	
 		
 	}
+	
 }
