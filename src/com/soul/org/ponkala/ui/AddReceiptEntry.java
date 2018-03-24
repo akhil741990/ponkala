@@ -24,15 +24,13 @@ public class AddReceiptEntry {
 		
 		JLabel lPoojaName = new JLabel("Pooja Name");
 		lPoojaName.setBounds(30, 100, 100, 40);
-		JComboBox cbPoojaName=new JComboBox(poojaType);   
+		JComboBox cbPoojaName = new JComboBox(poojaType);   
 	    cbPoojaName.setBounds(130, 100, 100, 40);
 		
 		JLabel lPoojaPrice = new JLabel("Pooja Amount");
 		lPoojaPrice.setBounds(30, 200, 100, 40);
 		JTextArea tPoojaPrce = new JTextArea();
 		tPoojaPrce.setBounds(130, 200, 100, 40);
-		
-		
 		
 		JLabel lName = new JLabel("Name");
 		lName.setBounds(30, 300, 100, 40);
@@ -46,6 +44,10 @@ public class AddReceiptEntry {
 		
 		JButton b=new JButton("Submit Receipt");//creating instance of JButton  
 		b.setBounds(130,500,200, 40);//x axis, y axis, width, height  
+		
+		
+		JButton reportButton = new JButton("View Receipt Report");//creating instance of JButton  
+		reportButton.setBounds(280, 100, 200, 40);//x axis, y axis, width, height
 		
 		
 		b.addActionListener(new ActionListener() {
@@ -72,6 +74,26 @@ public class AddReceiptEntry {
 		});
 		
 		
+		
+		reportButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+				String column[]={"ID","POOJA NAME","POOJA PRICE", "NAME", "ADDRESS", "DATE"};    
+				String [][] report = db.getPoojaDetailsByPoojaType(cbPoojaName.getSelectedItem().toString());
+			    JTable jt=new JTable(report,column);    
+			    jt.setBounds(300,200,200,300);          
+			    JScrollPane sp=new JScrollPane(jt);    
+			    f.add(sp);          
+			    f.setSize(300,400);    
+			    f.setVisible(true);    
+				
+			}
+		});
+		
+		
 		f.add(lPoojaName);
 		f.add(lPoojaPrice);
 		f.add(lName);
@@ -80,7 +102,8 @@ public class AddReceiptEntry {
 		f.add(tPoojaPrce);
 		f.add(tName);
 		f.add(tAddress);
-		f.add(b);//adding button in JFrame  
+		f.add(b);//adding button in JFrame
+		f.add(reportButton);
 		f.setSize(600,800);//400 width and 500 height  
 		f.setLayout(null);//using no layout managers  
 		f.setVisible(true);//making the frame visible  

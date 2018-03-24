@@ -11,6 +11,6 @@ public interface DatabaseQuery {
     
     public static String INSERT_INTO_RECEIPT_BOOK = "insert into receipt_book(pooja_name, pooja_price, name, address, submission_date) values(?,?,?,?,now())";
     
-    public static String SEARCH_BY_POOJA_TYPE = "select * from receipt_book where pooja_name like '%?%'";
+    public static String SEARCH_BY_POOJA_TYPE = "select * from receipt_book where pooja_name = '?'";
     
 }

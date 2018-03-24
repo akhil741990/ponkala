@@ -4,9 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.concurrent.Future;
-
 import org.apache.commons.dbcp.BasicDataSource;
-
 import com.soul.org.ponkala.entity.ReceiptBook;
 
 public class MySqlDatabase implements Database{
@@ -39,13 +37,9 @@ public class MySqlDatabase implements Database{
 	}
 	
 	private Connection getConnection() throws Exception {
-		
 			return this.dataSource.getConnection();
-
-		
 	}
 
-	
 	public int insertIntoReceiptBook(ReceiptBook receiptBook){
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -61,6 +55,24 @@ public class MySqlDatabase implements Database{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return 0;
+		}finally {
+			DatabaseOps.closeConnection(con, ps);
+		}
+	}
+	
+	public String[][] getPoojaDetailsByPoojaType(String poojaType){
+		Connection con = null;
+		PreparedStatement ps = null;
+		try {
+			con = getConnection();
+			ps = DatabaseOps.createPreparedStatement(con,DatabaseQuery.SEARCH_BY_POOJA_TYPE, new Object[]{poojaType.toUpperCase()});
+			ReceiptBookQueryJob dbJob = new ReceiptBookQueryJob(ps);
+			Future<String[][]> result = this.dbJobExecutor.submit(dbJob);
+			return result.get();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
 		}finally {
 			DatabaseOps.closeConnection(con, ps);
 		}

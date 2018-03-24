@@ -12,7 +12,7 @@ public class ReceiptBookUpdatorJob implements Callable<Integer>{
 	@Override
 	public Integer call() throws Exception {
 		// TODO Auto-generated method stub
-		return ps.executeUpdate();
+		return ps.executeUpdate();  // TDOD release resources
 	}
 
 }
