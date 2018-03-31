@@ -83,12 +83,12 @@ public class AddReceiptEntry {
 				
 				String column[]={"ID","POOJA NAME","POOJA PRICE", "NAME", "ADDRESS", "DATE"};    
 				String [][] report = db.getPoojaDetailsByPoojaType(cbPoojaName.getSelectedItem().toString());
-			    JTable jt=new JTable(report,column);    
+			    JTable jt = new JTable(report,column);    
 			    jt.setBounds(300,200,200,300);          
 			    JScrollPane sp=new JScrollPane(jt);    
 			    f.add(sp);          
-			    f.setSize(300,400);    
-			    f.setVisible(true);    
+			    jt.setSize(10,10);    
+			    jt.setVisible(true);    
 				
 			}
 		});
@@ -104,7 +104,7 @@ public class AddReceiptEntry {
 		f.add(tAddress);
 		f.add(b);//adding button in JFrame
 		f.add(reportButton);
-		f.setSize(600,800);//400 width and 500 height  
+		f.setSize(1000,1500);//400 width and 500 height  
 		f.setLayout(null);//using no layout managers  
 		f.setVisible(true);//making the frame visible  
 	

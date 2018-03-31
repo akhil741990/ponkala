@@ -1,5 +1,6 @@
 package com.soul.org.ponkala.db;
 
+import java.awt.datatransfer.StringSelection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -65,7 +66,7 @@ public class MySqlDatabase implements Database{
 		PreparedStatement ps = null;
 		try {
 			con = getConnection();
-			ps = DatabaseOps.createPreparedStatement(con,DatabaseQuery.SEARCH_BY_POOJA_TYPE, new Object[]{poojaType.toUpperCase()});
+			ps = DatabaseOps.createPreparedStatement(con,DatabaseQuery.SEARCH_BY_POOJA_TYPE + poojaType + "%'");
 			ReceiptBookQueryJob dbJob = new ReceiptBookQueryJob(ps);
 			Future<String[][]> result = this.dbJobExecutor.submit(dbJob);
 			return result.get();
