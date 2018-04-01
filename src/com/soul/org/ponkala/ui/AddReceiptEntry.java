@@ -2,7 +2,10 @@ package com.soul.org.ponkala.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import com.soul.org.ponkala.db.MySqlDatabase;
@@ -17,10 +20,15 @@ public class AddReceiptEntry {
 		
 		JFrame f=new JFrame();//creating instance of JFrame  
 		
+		try{
+			BufferedImage myImage = ImageIO.read(new File("C:\\Users\\akhil\\NLP\\ponkala\\resource\\ponkala-background-image.PNG"));
+			f.setContentPane(new ImagePanel(myImage));
+		}catch (Exception e) {
+			System.out.println("Failed to load background image :"+ e.getMessage());
+		}
+		
 		
 		String poojaType[]={"Annadanam", "Ponkala", "GanapathiHomam", "Nirapara", "Kalasham", "Archana", "DurgaPooja"};        
-	    
-		
 		
 		JLabel lPoojaName = new JLabel("Pooja Name");
 		lPoojaName.setBounds(30, 100, 100, 40);
@@ -81,14 +89,27 @@ public class AddReceiptEntry {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				
+				
+				JFrame innerFrame = new JFrame();
+				
 				String column[]={"ID","POOJA NAME","POOJA PRICE", "NAME", "ADDRESS", "DATE"};    
 				String [][] report = db.getPoojaDetailsByPoojaType(cbPoojaName.getSelectedItem().toString());
 			    JTable jt = new JTable(report,column);    
-			    jt.setBounds(300,200,200,300);          
+			    jt.setBounds(130,400,400,600);          
 			    JScrollPane sp=new JScrollPane(jt);    
-			    f.add(sp);          
-			    jt.setSize(10,10);    
-			    jt.setVisible(true);    
+			    innerFrame.add(sp);
+			    innerFrame.setSize(500,600);    
+			    innerFrame.setVisible(true);
+			    JLabel lTotal = new JLabel("Total");
+				lTotal.setBounds(100, 400, 100, 40);
+				int cost = 0;
+				for(String [] innerArray : report){
+					cost = cost + Integer.parseInt(innerArray[2]);
+				}
+				JLabel total = new JLabel("" + cost);
+				total.setBounds(100, 480, 100, 40);
+				innerFrame.add(lTotal);
+				innerFrame.add(total);
 				
 			}
 		});
